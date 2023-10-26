@@ -1,45 +1,59 @@
 generator client {
   provider = "prisma-client-js"
 }
+
 datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
+
 model User {
-  id    Int     @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @map("updated_at")
-  email String  @unique
-  password String
-  name  String
-  phone String @default("")
+  email     String   @unique
+  password  String
+  name      String
+  phone     String   @default("")
 }
+
 model MenuItem {
-  id    Int     @id @default(autoincrement())
-  name String
-  slug String @unique
+  id          Int     @id @default(autoincrement())
+  name        String
+  slug        String  @unique
   description String
   ingredients String?
-  weight Int
-  count Int
-  price Int
-  image String
+  weight      Int
+  count       Int
+  price       Int
+  image       String
 }
+
 model Category {
-  id    Int     @id @default(autoincrement())
-  name String @unique
+  id          Int    @id @default(autoincrement())
+  name        String @unique
   description String
 }
+
 model Order {
-  id    Int     @id @default(autoincrement())
-  number Int @unique
+  id         Int      @id @default(autoincrement())
+  number     Int      @unique
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @default(now()) @map("updated_at")
+  status     String
+  totalPrice Int      @map("total_price")
+}
+
+model OrderItem {
+  id       Int @id @default(autoincrement())
+  quantity Int
+  price    Int
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @map("updated_at")
-  status String
-  totalPrice Int @map("total_price")
-}
-model OrderItem {
-  id    Int     @id @default(autoincrement())
-  quantity Int
-  price Int
+  rating    Int
+  text      String
 }
