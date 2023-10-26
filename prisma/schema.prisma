@@ -30,3 +30,16 @@ model Category {
   name String @unique
   description String
 }
+model Order {
+  id    Int     @id @default(autoincrement())
+  number Int @unique
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
+  status String
+  totalPrice Int @map("total_price")
+}
+model OrderItem {
+  id    Int     @id @default(autoincrement())
+  quantity Int
+  price Int
+}
