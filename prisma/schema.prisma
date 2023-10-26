@@ -8,8 +8,21 @@ datasource db {
 }
 model User {
   id    Int     @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
   email String  @unique
   password String
   name  String
   phone String @default("")
+}
+model MenuItem {
+  id    Int     @id @default(autoincrement())
+  name String
+  slug String @unique
+  description String
+  ingredients String?
+  weight Int
+  count Int
+  price Int
+  image String
 }
