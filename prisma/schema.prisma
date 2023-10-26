@@ -15,6 +15,9 @@ model User {
   password  String
   name      String
   phone     String   @default("")
+
+  orders  Order[]
+  reviews Review[]
 }
 
 model MenuItem {
@@ -25,14 +28,29 @@ model MenuItem {
   ingredients String?
   weight      Int
   count       Int
-  price       Int
-  image       String
+  price       Decimal
+
+  images     Image[]
+  category   Category    @relation(fields: [categoryId], references: [id])
+  categoryId Int         @map("category_id")
+  orderItems OrderItem[]
+  reviews    Review[]
+}
+
+model Image {
+  id  Int    @id @default(autoincrement())
+  url String
+
+  MenuItem   MenuItem? @relation(fields: [menuItemId], references: [id])
+  menuItemId Int?      @map("menu_item_id")
 }
 
 model Category {
   id          Int    @id @default(autoincrement())
   name        String @unique
   description String
+
+  menuItems MenuItem[]
 }
 
 model Order {
@@ -41,13 +59,24 @@ model Order {
   createdAt  DateTime @default(now()) @map("created_at")
   updatedAt  DateTime @default(now()) @map("updated_at")
   status     String
-  totalPrice Int      @map("total_price")
+  totalPrice Decimal  @map("total_price")
+
+  items OrderItem[]
+
+  user   User? @relation(fields: [userId], references: [id])
+  userId Int?  @map("user_id")
 }
 
 model OrderItem {
-  id       Int @id @default(autoincrement())
+  id       Int     @id @default(autoincrement())
   quantity Int
-  price    Int
+  price    Decimal
+
+  order   Order? @relation(fields: [orderId], references: [id])
+  orderId Int?   @map("order_id")
+
+  menuItem   MenuItem? @relation(fields: [menuItemId], references: [id])
+  menuItemId Int?      @map("menu_item_id")
 }
 
 model Review {
@@ -56,4 +85,10 @@ model Review {
   updatedAt DateTime @default(now()) @map("updated_at")
   rating    Int
   text      String
+
+  menuItem   MenuItem? @relation(fields: [menuItemId], references: [id])
+  menuItemId Int?      @map("menu_item_id")
+
+  user   User? @relation(fields: [userId], references: [id])
+  userId Int?  @map("user_id")
 }
