@@ -8,9 +8,11 @@ import { OrderModule } from './order/order.module';
 import { ReviewModule } from './review/review.module';
 import { AuthModule } from './auth/auth.module';
 import { PrismaService } from './prisma.service';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     UserModule,
     MenuItemModule,
     CategoryModule,
